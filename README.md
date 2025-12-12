@@ -34,11 +34,8 @@ The backend provides a REST API for:
 - Orders
 
 ---
-### 💬 Contact
 
-👤 Kaue Barbi
-
-📧 kauebarbicode@email.com
+Built with ❤️ by [Kaue Barbi](https://kabarbi.vercel.app)
 
 
 
