@@ -1,5 +1,5 @@
 
-# 🎮 Games For You – Backend (Django + Neon PostgreSQL)
+# Games For You – Backend (Django + Neon PostgreSQL)
 
 (The project is still in development.)
 
@@ -9,7 +9,7 @@ The backend is built with Django, Django REST Framework, Neon PostgreSQL, CORS, 
 
 Front-end repository - (https://github.com/KaBarbi/games-for-you-frontend)
 
-## 🚀 Technologies Used
+##  Technologies Used
 
 - Python 3
 
