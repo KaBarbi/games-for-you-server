@@ -18,7 +18,7 @@ router.register(r'cart-items', CartItemViewSet, basename="cartitem")
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include(router.urls)),
-    path("api/", include("users.urls")),
+    path('api/users/', include('users.urls')),
 ]
 
 if settings.DEBUG:
