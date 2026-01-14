@@ -78,13 +78,12 @@ ROOT_URLCONF = 'setup.urls'
 
 # Permitir CORS durante dev (ajuste origens para produção)
 CORS_ALLOWED_ORIGINS = [
-    'https://games-for-you.onrender.com',
-    "http://localhost:5173",
+    "http://localhost:5173",  # dev
+    "https://games-for-you.onrender.com",  # produção
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://gamesforyou.onrender.com',
-    'https://games-for-you.onrender.com',
+    "https://games-for-you.onrender.com",
 ]
 
 
