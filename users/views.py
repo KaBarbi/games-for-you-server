@@ -1,10 +1,15 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .serializers import RegisterSerializer, LoginSerializer, UserSerializer
+from .serializers import (
+    RegisterSerializer,
+    LoginSerializer,
+    UserSerializer,
+    UserUpdateSerializer
+)
 
 
 class RegisterView(APIView):
@@ -41,8 +46,11 @@ class UserUpdateView(APIView):
     permission_classes = [IsAuthenticated]
 
     def put(self, request):
-        user = request.user
-        serializer = UserSerializer(user, data=request.data, partial=True)
+        serializer = UserUpdateSerializer(
+            request.user,
+            data=request.data,
+            partial=True
+        )
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
