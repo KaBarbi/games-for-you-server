@@ -3,10 +3,6 @@ from django.db import models
 
 
 class User(AbstractUser):
-    """
-    Custom User para o e-commerce Games For You.
-    Herda tudo do Django (username, email, password, etc.)
-    """
     full_name = models.CharField(max_length=150, blank=True)
     phone = models.CharField(max_length=20, blank=True)
 
