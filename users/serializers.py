@@ -13,80 +13,56 @@ User = get_user_model()
 # REGISTER
 
 class RegisterSerializer(serializers.ModelSerializer):
-    full_name = serializers.CharField(required=True)
+    password2 = serializers.CharField(write_only=True)
 
-    email = serializers.EmailField(
-        required=True,
-        validators=[
-            UniqueValidator(
-                queryset=User.objects.all(),
-                message="This email is already in use."
-            )
-        ]
+    username = serializers.CharField(
+        validators=[UniqueValidator(queryset=User.objects.all())]
     )
-
-    password = serializers.CharField(
-        write_only=True,
-        required=True,
-        validators=[validate_password]
-    )
-
-    password2 = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         model = User
-        fields = ("full_name", "email", "password", "password2")
+        fields = ['username', 'email', 'password', 'password2']
+        extra_kwargs = {
+            'password': {'write_only': True},
+        }
 
-    def validate(self, attrs):
-        if attrs["password"] != attrs["password2"]:
-            raise serializers.ValidationError(
-                {"password": "Passwords do not match"}
-            )
-        return attrs
+    def validate(self, data):
+        if data['password'] != data['password2']:
+            raise serializers.ValidationError("Senhas não conferem")
+        return data
 
     def create(self, validated_data):
-        validated_data.pop("password2")
+        validated_data.pop('password2')
 
-        user = User.objects.create_user(
-            username=validated_data["email"],
-            email=validated_data["email"],
-            password=validated_data["password"],
+        return User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password']
         )
-
-        user.full_name = validated_data["full_name"]
-        user.save()
-
         return user
 
 
-# LOGIN JWT (DEFINITIVO)
+# LOGIN JWT
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    username_field = "email"
 
     def validate(self, attrs):
-        email = attrs.get("email")
-        password = attrs.get("password")
+        email = attrs.get('email')
+        password = attrs.get('password')
 
-        user = authenticate(
-            request=self.context.get("request"),
-            username=email,
-            password=password
-        )
-
+        user = authenticate(username=email, password=password)
         if not user:
-            raise serializers.ValidationError("Invalid email or password")
+            raise serializers.ValidationError("Credenciais inválidas")
 
         data = super().validate({
-            "username": user.username,
-            "password": password
+            'username': email,
+            'password': password
         })
 
-        data["user"] = {
-            "id": user.id,
-            "email": user.email,
-            "full_name": user.full_name,
+        data['user'] = {
+            'email': user.email,
+            'full_name': user.username
         }
 
         return data
