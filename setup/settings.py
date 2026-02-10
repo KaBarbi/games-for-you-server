@@ -15,6 +15,7 @@ from pathlib import Path
 from decouple import config
 import dj_database_url
 import os
+import sys
 from dotenv import load_dotenv
 from urllib.parse import urlparse, parse_qsl
 
@@ -57,9 +58,9 @@ INSTALLED_APPS = [
     'django_extensions',
 
     # Apps do projeto
-    'users',
+    "users.apps.UsersConfig",
+    "cart.apps.CartConfig",
     'games',
-    'cart',
 ]
 
 MIDDLEWARE = [
@@ -126,6 +127,13 @@ DATABASES = {
     }
 }
 
+if "pytest" in sys.argv:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db_test.sqlite3",
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

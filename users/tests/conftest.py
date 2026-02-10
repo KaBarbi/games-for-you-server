@@ -5,6 +5,21 @@ from rest_framework.test import APIClient
 User = get_user_model()
 
 
+@pytest.fixture(scope="session")
+def django_db_setup():
+    from django.conf import settings
+    from copy import deepcopy
+
+    default_db = deepcopy(settings.DATABASES["default"])
+
+    default_db.update({
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": ":memory:",
+    })
+
+    settings.DATABASES["default"] = default_db
+
+
 @pytest.fixture
 def api_client():
     return APIClient()
