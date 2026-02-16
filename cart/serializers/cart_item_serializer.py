@@ -5,11 +5,7 @@ from cart.models import CartItem
 class CartItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = CartItem
-        fields = [
-            "id",
-            "game",
-            "quantity",
-        ]
+        fields = ['id', 'product', 'quantity']
         read_only_fields = ["id"]
 
     def validate_quantity(self, value):
