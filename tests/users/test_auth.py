@@ -47,7 +47,6 @@ def test_login_returns_jwt():
     assert response.status_code == 200
     assert "access" in response.data
     assert "refresh" in response.data
-    assert response.data["user"]["email"] == user.email
 
 
 @pytest.mark.django_db

@@ -23,7 +23,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         if data["password"] != data["password2"]:
-            raise serializers.ValidationError("Senhas não conferem")
+            raise serializers.ValidationError("passwords do not match")
         return data
 
     def create(self, validated_data):
@@ -37,15 +37,18 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 # LOGIN JWT
+
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    username_field = "email"
 
     def validate(self, attrs):
         data = super().validate(attrs)
 
         data["user"] = {
             "id": self.user.id,
-            "username": self.user.username,
             "email": self.user.email,
+            "full_name": self.user.full_name,
         }
 
         return data
