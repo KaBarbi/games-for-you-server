@@ -249,3 +249,10 @@ SPECTACULAR_SETTINGS = {
     },
     'SECURITY': [{'BearerAuth': []}],
 }
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "test-cache",
+    }
+}
