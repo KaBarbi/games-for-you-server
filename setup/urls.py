@@ -25,7 +25,7 @@ urlpatterns = [
 
     # api
     path("api/", include(router.urls)),
-    path("api/users/", include("users.urls")),
+    # path("api/users/", include("users.urls")),
 
     # JWT
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),

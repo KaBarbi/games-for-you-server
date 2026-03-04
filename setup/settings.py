@@ -207,16 +207,16 @@ REST_FRAMEWORK = {
         'user': '1000/hour'
     },
 
-    #  PAGINATION
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 20,
+    # PAGINATION GLOBAL
+    'DEFAULT_PAGINATION_CLASS': 'setup.pagination.DefaultPagination',
 
     #  AUTHENTICATION
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',
+        #  'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
 
     #  FILTERS
