@@ -9,29 +9,68 @@ The backend is built with Django, Django REST Framework, Neon PostgreSQL, CORS, 
 
 Front-end repository - (https://github.com/KaBarbi/games-for-you-frontend)
 
-##  Technologies Used
+---
+
+## Tech Stack
 
 - Python 3
-
+- Django
 - Django REST Framework
-
 - PostgreSQL (Neon DB)
-
+- django-filter
+- drf-spectacular (OpenAPI / Swagger)
 - django-cors-headers
+- Render (deployment-ready)
 
-- Render for deployment
+---
 
-## Project Overview
+## Architecture
 
-The backend provides a REST API for:
+The backend follows a **layered RESTful architecture** using Django and DRF.
 
-- User authentication
+### Architectural Principles
 
-- Game/product listing
+- Separation of concerns (models, serializers, views, filters)
+- Stateless authentication (JWT)
+- Modular app structure
+- Environment-based configuration
+- Production-grade relational database (PostgreSQL)
 
-- Shopping cart
+The system is structured to support horizontal scalability and future feature expansion.
 
-- Orders
+---
+
+## Core Features
+
+- JWT authentication (access & refresh tokens)
+- Secure user registration and login
+- Paginated game catalog
+- Dynamic filtering (price range and platform)
+- RESTful endpoint design
+- Structured validation using DRF serializers
+- Automatic OpenAPI schema generation
+
+---
+
+## Architectural Decisions
+
+- DRF ViewSets for standardized CRUD operations
+- Declarative filtering with django-filter
+- Global pagination configuration
+- Explicit permission classes per endpoint
+- Automatic schema generation with drf-spectacular
+- Environment variable isolation (.env)
+- PostgreSQL instead of SQLite for production readiness
+
+---
+
+## Security Considerations
+
+- SECRET_KEY excluded from version control
+- Database credentials managed via environment variables
+- CORS properly configured
+- Explicit authentication and authorization enforcement
+- No sensitive user data exposed in responses
 
 ---
 
