@@ -13,4 +13,4 @@ class UserSerializer(serializers.ModelSerializer):
 class MeResponseSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     email = serializers.EmailField()
-    full_name = serializers.CharField()
+    username = serializers.CharField()
