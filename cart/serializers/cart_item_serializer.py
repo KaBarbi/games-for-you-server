@@ -1,16 +1,28 @@
 from rest_framework import serializers
 from cart.models import CartItem
+from games.models import Game
+
+
+class GameSummarySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Game
+        fields = [
+            "id",
+            "title",
+            "price",
+            "platform",
+            "platform_display",
+            "cover",
+        ]
 
 
 class CartItemSerializer(serializers.ModelSerializer):
+    game = GameSummarySerializer(source="product", read_only=True)
+
     class Meta:
         model = CartItem
-        fields = ['id', 'product', 'quantity']
-        read_only_fields = ["id"]
-
-    def validate_quantity(self, value):
-        if value <= 0:
-            raise serializers.ValidationError(
-                "A quantidade deve ser maior que zero."
-            )
-        return value
+        fields = [
+            "id",
+            "game",
+            "quantity",
+        ]
