@@ -17,7 +17,7 @@ class GameSummarySerializer(serializers.ModelSerializer):
 
 
 class CartItemSerializer(serializers.ModelSerializer):
-    game = GameSummarySerializer(source="product", read_only=True)
+    game = GameSummarySerializer(read_only=True)
 
     class Meta:
         model = CartItem

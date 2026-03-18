@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import status
 from django.db.models import Prefetch
+from cart.serializers import CartSerializer
 
 from cart.models import Cart, CartItem
 
@@ -38,18 +39,18 @@ class CartViewSet(ViewSet):
     @action(detail=False, methods=["post"])
     def add_item(self, request):
         cart = self.get_cart()
-        product_id = request.data.get("product")
+        game_id = request.data.get("game")
         quantity = int(request.data.get("quantity", 1))
 
-        if not product_id:
+        if not game_id:
             return Response(
-                {"error": "Product is required"},
+                {"error": "Game is required"},
                 status=status.HTTP_400_BAD_REQUEST
             )
 
         item = CartItem.objects.filter(
             cart=cart,
-            product_id=product_id
+            game_id=game_id
         ).first()
 
         if item:
@@ -58,7 +59,7 @@ class CartViewSet(ViewSet):
         else:
             CartItem.objects.create(
                 cart=cart,
-                product_id=product_id,
+                game_id=game_id,
                 quantity=quantity
             )
 
@@ -89,7 +90,7 @@ class CartViewSet(ViewSet):
 
         return Response({"message": "Item updated"})
 
-    @action(detail=False, methods=["delete"])
+    @action(detail=False, methods=["post"])
     def remove_item(self, request):
         cart = self.get_cart()
         item_id = request.data.get("item_id")
@@ -103,4 +104,6 @@ class CartViewSet(ViewSet):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        return Response({"message": "Item removed"})
+        serializer = CartSerializer(self.get_cart())
+
+        return Response(serializer.data)

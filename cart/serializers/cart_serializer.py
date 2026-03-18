@@ -10,6 +10,5 @@ class CartSerializer(serializers.ModelSerializer):
         model = Cart
         fields = [
             "id",
-            "active",
             "items",
         ]
