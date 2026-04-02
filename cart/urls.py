@@ -1,7 +1,6 @@
-from rest_framework.routers import DefaultRouter
-from cart.views import CartViewSet
+from django.urls import path
+from .views import CartView
 
-router = DefaultRouter()
-router.register("cart", CartViewSet, basename="cart")
-
-urlpatterns = router.urls
+urlpatterns = [
+    path("cart", CartView.as_view(), name="cart"),
+]
