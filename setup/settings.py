@@ -21,6 +21,12 @@ from urllib.parse import urlparse, parse_qsl
 
 load_dotenv()
 
+
+def _csv_env(name):
+    value = config(name, default="")
+    return [item.strip() for item in value.split(",") if item.strip()]
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -78,16 +84,19 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'setup.urls'
 
-# Permitir CORS durante dev (ajuste origens para produção)
+# Permitir CORS durante dev e via variáveis de ambiente em produção.
+_production_origins = _csv_env("FRONTEND_ORIGINS")
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # dev
-    "https://games-for-you.onrender.com",  # produção
     "http://127.0.0.1:5173",
+    "https://games-for-you.onrender.com",
+    *_production_origins,
 ]
-
 
 CSRF_TRUSTED_ORIGINS = [
     "https://games-for-you.onrender.com",
+    *_production_origins,
 ]
 
 
